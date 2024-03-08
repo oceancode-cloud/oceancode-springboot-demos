@@ -15,3 +15,6 @@
 2. 运行springboot-simple-demo-web的AppMain主函数
 
 > 说明`springboot-simple-demo-core-function`中的函数接口需要自己实现，其余代码均自动生成。我们只需要关注function的实现即可。
+
+[数据库hello world](./db.md)
+[多数据源demo](./multiple.md)
