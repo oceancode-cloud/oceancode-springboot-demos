@@ -6,7 +6,7 @@ package com.springboot.simple.demo.core.common.handler;
 
 import com.oceancode.cloud.api.TypeEnum;
 import com.oceancode.cloud.common.enums.AppModeType;
-
+import com.springboot.simple.demo.core.enums.*;
 
 import com.oceancode.cloud.common.util.JsonUtil;
 import org.apache.ibatis.type.BaseTypeHandler;
@@ -21,13 +21,15 @@ import java.util.Objects;
 import java.math.BigDecimal;
 
 @MappedTypes(value = {
-        AppModeType.class
+        AppModeType.class,
+        UserStatus.class,
 })
 public class UniversalEnumHandler<E extends Enum<E> & TypeEnum> extends BaseTypeHandler<E> {
 
     private final Class<E> type;
 
     static {
+        JsonUtil.registerTypeEnum(com.springboot.simple.demo.core.enums.UserStatus.class);
     }
 
     /**

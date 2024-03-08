@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springboot.simple.demo.core.mapper.master.UserMapper">
+    <insert id="insertOne" parameterType="com.springboot.simple.demo.core.domain.User"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `t_user`
+        <trim prefix = "(" suffix = ")" suffixOverrides = ",">
+        `created_at`,
+        <if test="email != null ">`email`,</if>
+        `id`,
+        `password`,
+        `status`,
+        `updated_at`,
+        `username`,
+        </trim>
+        <trim prefix = "VALUES(" suffix = ")" suffixOverrides=",">
+        #{createdAt},
+        <if test="email != null ">#{email},</if>
+        #{id},
+        #{password},
+        #{status},
+        #{updatedAt},
+        #{username},
+        </trim>
+    </insert>
+
+    <insert id="insertList" useGeneratedKeys="true" keyColumn="id" keyProperty="list.id">
+        INSERT INTO `t_user`(
+        `created_at`,
+        `email`,
+        `id`,
+        `password`,
+        `status`,
+        `updated_at`,
+        `username`
+        ) VALUES
+        <foreach collection="list" close="" index="index" item="item" open="" separator=",">
+        (
+        #{item.createdAt},
+        #{item.email},
+        #{item.id},
+        #{item.password},
+        #{item.status},
+        #{item.updatedAt},
+        #{item.username}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="insertListWithBusinessField" useGeneratedKeys="true" keyColumn="id" keyProperty="list.id">
+        INSERT INTO `t_user`(
+        `created_at`,
+        `email`,
+        `id`,
+        `password`,
+        `status`,
+        `updated_at`,
+        `username`
+        ) VALUES
+        <foreach collection="list" close="" index="index" item="item" open="" separator=",">
+        (
+        #{createdAt},
+        #{item.email},
+        #{item.id},
+        #{item.password},
+        #{item.status},
+        #{updatedAt},
+        #{item.username}
+        )
+        </foreach>
+    </insert>
+
+    <delete id="deleteByIdWithBusiness">
+        DELETE FROM `t_user`
+        WHERE
+        `id` = #{id}
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM `t_user`
+        WHERE
+        `id` = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        DELETE FROM `t_user`
+        WHERE
+        `id` IN
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+        #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteSoftByIdsWithBusinessField">
+        DELETE FROM `t_user`
+        WHERE
+        `id` IN
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+        #{item}
+        </foreach>
+    </delete>
+
+
+
+    <delete id="delete" parameterType="com.springboot.simple.demo.core.domain.User">
+        DELETE FROM `t_user`
+        WHERE
+        <trim prefix = "" suffix = "" suffixOverrides = "AND">
+        <if test="createdAt != null ">`created_at` = #{createdAt} AND </if>
+        <if test="email != null ">`email` = #{email} AND </if>
+        <if test="id != null ">`id` = #{id} AND </if>
+        <if test="status != null ">`status` = #{status} AND </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} AND </if>
+        <if test="username != null ">`username` = #{username} AND </if>
+        </trim>
+    </delete>
+
+    <delete id="deleteOne" parameterType="com.springboot.simple.demo.core.domain.User">
+        DELETE FROM `t_user`
+        WHERE
+        <trim prefix = "" suffix = "" suffixOverrides = "AND">
+        <if test="createdAt != null ">`created_at` = #{createdAt} AND </if>
+        <if test="email != null ">`email` = #{email} AND </if>
+        <if test="id != null ">`id` = #{id} AND </if>
+        <if test="status != null ">`status` = #{status} AND </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} AND </if>
+        <if test="username != null ">`username` = #{username} AND </if>
+        </trim>
+         LIMIT 1
+    </delete>
+
+    <update id="updateById" parameterType="com.springboot.simple.demo.core.domain.User">
+        UPDATE `t_user` SET
+        <trim prefix = "" suffix = "" suffixOverrides = ",">
+        `email` = #{email} ,
+        <if test="password != null ">`password` = #{password} , </if>
+        <if test="status != null ">`status` = #{status} , </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} , </if>
+        <if test="username != null ">`username` = #{username} , </if>
+        </trim>
+        WHERE
+        `id` = #{id}
+        LIMIT 1
+    </update>
+
+    <update id="updateByIdWithBusiness" parameterType="com.springboot.simple.demo.core.domain.User">
+        UPDATE `t_user` SET
+        <trim prefix = "" suffix = "" suffixOverrides = ",">
+        `email` = #{email} ,
+        <if test="password != null ">`password` = #{password} , </if>
+        <if test="status != null ">`status` = #{status} , </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} , </if>
+        <if test="username != null ">`username` = #{username} , </if>
+        </trim>
+        WHERE
+        `id` = #{id}
+        LIMIT 1
+    </update>
+
+    <select id="selectById" resultType="com.springboot.simple.demo.core.domain.User" parameterType="Long">
+        SELECT
+        `created_at` AS `createdAt`,
+        `email` AS `email`,
+        `id` AS `id`,
+        `password` AS `password`,
+        `status` AS `status`,
+        `updated_at` AS `updatedAt`,
+        `username` AS `username`
+        FROM `t_user`
+        WHERE
+        `id` = #{id}
+    </select>
+
+    <select id="selectByUniqueColumn" resultType="com.springboot.simple.demo.core.domain.User">
+        SELECT
+        `created_at` AS `createdAt`,
+        `email` AS `email`,
+        `id` AS `id`,
+        `password` AS `password`,
+        `status` AS `status`,
+        `updated_at` AS `updatedAt`,
+        `username` AS `username`
+        FROM `t_user`
+        WHERE
+        `${column}` = #{columnValue}
+    </select>
+
+    <select id="existsByUniqueColumn" resultType="boolean">
+        SELECT EXISTS(
+          SELECT
+          id AS `id`
+          FROM `t_user`
+          WHERE
+        `${column}` = #{columnValue}
+        ) as `value`
+    </select>
+
+    <select id="selectByIdWithBusiness" resultType="com.springboot.simple.demo.core.domain.User" parameterType="Long">
+        SELECT
+        `created_at` AS `createdAt`,
+        `email` AS `email`,
+        `id` AS `id`,
+        `password` AS `password`,
+        `status` AS `status`,
+        `updated_at` AS `updatedAt`,
+        `username` AS `username`
+        FROM `t_user`
+        WHERE
+        `id`=#{id}
+    </select>
+
+    <select id="selectByIds" resultType="com.springboot.simple.demo.core.domain.User" parameterType="Long">
+        SELECT
+        `created_at` AS `createdAt`,
+        `email` AS `email`,
+        `id` AS `id`,
+        `status` AS `status`,
+        `updated_at` AS `updatedAt`,
+        `username` AS `username`
+        FROM `t_user`
+        WHERE
+        `id` IN
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+        #{item}
+        </foreach>
+    </select>
+
+    <select id="selectOne" resultType="com.springboot.simple.demo.core.domain.User" parameterType="com.springboot.simple.demo.core.domain.User">
+        SELECT
+        `created_at` AS `createdAt`,
+        `email` AS `email`,
+        `id` AS `id`,
+        `password` AS `password`,
+        `status` AS `status`,
+        `updated_at` AS `updatedAt`,
+        `username` AS `username`
+        FROM `t_user`
+        WHERE
+        <trim prefix = "" suffix = "" suffixOverrides = "AND">
+        <if test="createdAt != null ">`created_at` = #{createdAt} AND </if>
+        <if test="email != null ">`email` = #{email} AND </if>
+        <if test="id != null ">`id` = #{id} AND </if>
+        <if test="status != null ">`status` = #{status} AND </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} AND </if>
+        <if test="username != null ">`username` = #{username} AND </if>
+        </trim>
+        LIMIT 2
+    </select>
+
+    <select id="selectCount" parameterType="com.springboot.simple.demo.core.domain.User" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM `t_user`
+        <where>
+        <trim prefix = "" suffix = "" suffixOverrides = "AND">
+         <if test="createdAt != null ">`created_at` = #{createdAt} AND </if>
+         <if test="email != null ">`email` = #{email} AND </if>
+         <if test="id != null ">`id` = #{id} AND </if>
+         <if test="status != null ">`status` = #{status} AND </if>
+         <if test="updatedAt != null ">`updated_at` = #{updatedAt} AND </if>
+         <if test="username != null ">`username` = #{username} AND </if>
+        </trim>
+        </where>
+    </select>
+
+    <select id="selectAll" resultType="com.springboot.simple.demo.core.domain.User">
+        SELECT
+        `created_at` AS `createdAt`,
+        `email` AS `email`,
+        `id` AS `id`,
+        `status` AS `status`,
+        `updated_at` AS `updatedAt`,
+        `username` AS `username`
+        FROM `t_user`
+        LIMIT 30000
+    </select>
+
+    <select id="selectAllByEntity" resultType="com.springboot.simple.demo.core.domain.User">
+        SELECT
+        `created_at` AS `createdAt`,
+        `email` AS `email`,
+        `id` AS `id`,
+        `status` AS `status`,
+        `updated_at` AS `updatedAt`,
+        `username` AS `username`
+        FROM `t_user`
+        WHERE
+        <trim prefix = "" suffix = "" suffixOverrides = "AND">
+        <if test="createdAt != null ">`created_at` = #{createdAt} AND </if>
+        <if test="email != null ">`email` = #{email} AND </if>
+        <if test="id != null ">`id` = #{id} AND </if>
+        <if test="status != null ">`status` = #{status} AND </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} AND </if>
+        <if test="username != null ">`username` = #{username} AND </if>
+        </trim>
+        LIMIT 30000
+    </select>
+    <select id="selectList" resultType="com.springboot.simple.demo.core.domain.User">
+        SELECT
+        `created_at` AS `createdAt`,
+        `email` AS `email`,
+        `id` AS `id`,
+        `status` AS `status`,
+        `updated_at` AS `updatedAt`,
+        `username` AS `username`
+        FROM `t_user`
+        <where>
+        <trim prefix = "" suffix = "" suffixOverrides = "AND">
+        <if test="entity!=null">
+        <if test="entity.createdAt != null ">`created_at` = #{entity.createdAt} AND </if>
+        <if test="entity.email != null ">`email` = #{entity.email} AND </if>
+        <if test="entity.id != null ">`id` = #{entity.id} AND </if>
+        <if test="entity.status != null ">`status` = #{entity.status} AND </if>
+        <if test="entity.updatedAt != null ">`updated_at` = #{entity.updatedAt} AND </if>
+        <if test="entity.username != null ">`username` = #{entity.username} AND </if>
+        </if>
+        </trim>
+        </where>
+        LIMIT #{offset},#{size}
+    </select>
+
+    <select id="existsById" resultType="Integer">
+        SELECT 1
+        FROM `t_user`
+        WHERE
+        `id` = #{id}
+    </select>
+
+    <select id="existsByIds" resultType="int">
+        SELECT COUNT(*)
+        FROM `t_user`
+        WHERE
+        `id` IN
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+        #{item}
+        </foreach>
+    </select>
+
+
+</mapper>

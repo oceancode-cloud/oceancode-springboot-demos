@@ -13,8 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication(scanBasePackageClasses = {
         com.springboot.simple.demo.core.PackageInfo.class,
         com.oceancode.cloud.common.PackageInfo.class
-}, nameGenerator = FullModelBeanNameGenerator.class,
-        exclude = {com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.class, org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class})
+}, nameGenerator = FullModelBeanNameGenerator.class)
 public abstract class Application {
 
     public <T extends Application> void run(Class<T> primarySource, String[] args) {
