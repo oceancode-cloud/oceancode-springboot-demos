@@ -1,12 +1,12 @@
 package com.springboot.simple.demo.web;
 
-import com.oceancode.cloud.common.FullModelBeanNameGenerator;
 import com.springboot.simple.demo.core.Application;
+import com.oceancode.cloud.common.FullModelBeanNameGenerator;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan(
         basePackageClasses = {
-                PackageInfo.class,
+                com.springboot.simple.demo.web.PackageInfo.class,
                 com.springboot.simple.demo.core.PackageInfo.class,
 },
         nameGenerator = FullModelBeanNameGenerator.class
