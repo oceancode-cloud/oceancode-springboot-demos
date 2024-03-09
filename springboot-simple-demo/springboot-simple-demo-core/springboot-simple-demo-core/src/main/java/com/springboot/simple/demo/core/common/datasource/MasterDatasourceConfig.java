@@ -4,8 +4,8 @@
 
 package com.springboot.simple.demo.core.common.datasource;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.oceancode.cloud.api.security.Rsa2CryptoService;
+import com.oceancode.cloud.common.config.DatasourceWrapper;
 import com.springboot.simple.demo.core.common.constant.CommonConst;
 import com.springboot.simple.demo.core.common.handler.UniversalEnumHandler;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,18 +21,19 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @MapperScan(basePackages = CommonConst.MAPPER_PACKAGE + ".master", sqlSessionFactoryRef = "masterSqlSessionFactory")
 public class MasterDatasourceConfig {
+    @Resource
+    private Rsa2CryptoService rsa2CryptoService;
 
     @Bean(name = "masterDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.master")
     public DataSource masterDataSource() {
-        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
+        DatasourceWrapper dataSource = new DatasourceWrapper(rsa2CryptoService,"master");
         dataSource.setName("masterDataSource-master");
         return dataSource;
     }

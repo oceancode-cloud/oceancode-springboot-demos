@@ -262,4 +262,10 @@ public interface UserRepository {
 
     <T> ResultData<T> transaction(ActionCallback<ResultData<T>> actionCallback, boolean throwEx);
 
+    List<com.springboot.simple.demo.core.domain.User> queryAllUser();
+
+    com.springboot.simple.demo.core.domain.User queryByEmail(String email);
+
+    com.springboot.simple.demo.core.domain.User queryByUserId(Long id);
+
 }

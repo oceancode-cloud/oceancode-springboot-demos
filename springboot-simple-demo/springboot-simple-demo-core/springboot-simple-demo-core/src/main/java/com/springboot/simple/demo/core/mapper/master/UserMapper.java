@@ -155,4 +155,31 @@ public interface UserMapper {
 
     Integer existsById(long id);
     int existsByIds(@Param("list") Set<Long> list);
+    /**
+     * queryAllUser
+     *
+
+     * @param session user session info(userId,projectId,tenantId)
+     * @return User
+     */
+    List<com.springboot.simple.demo.core.domain.User> queryAllUser(@Param("session") java.util.Map<String,Object> sessionMap);
+
+    /**
+     * 根据邮箱查询用户
+     *
+     * @param entity  User
+     * @param session user session info(userId,projectId,tenantId)
+     * @return User
+     */
+    com.springboot.simple.demo.core.domain.User queryByEmail(@Param("email") String email, @Param("session") java.util.Map<String,Object> sessionMap);
+
+    /**
+     * 根据用户ID查询
+     *
+     * @param entity  User
+     * @param session user session info(userId,projectId,tenantId)
+     * @return User
+     */
+    com.springboot.simple.demo.core.domain.User queryByUserId(@Param("id") Long id, @Param("session") java.util.Map<String,Object> sessionMap);
+
 }

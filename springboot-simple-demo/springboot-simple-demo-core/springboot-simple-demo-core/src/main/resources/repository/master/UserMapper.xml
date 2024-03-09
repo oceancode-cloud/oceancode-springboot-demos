@@ -333,4 +333,16 @@
     </select>
 
 
+    <select id="queryAllUser" resultType="com.springboot.simple.demo.core.domain.User">
+        select `id`,`username`,`password`  from `t_user`
+    </select>
+
+    <select id="queryByEmail" resultType="com.springboot.simple.demo.core.domain.User">
+        select `id`,`username`,`email`,`status` fom `t_user` where email=#{email}
+    </select>
+
+    <select id="queryByUserId" resultType="com.springboot.simple.demo.core.domain.User">
+        select `id`,`username`,`email`,`status` fom `t_user` where email=#{id}
+    </select>
+
 </mapper>

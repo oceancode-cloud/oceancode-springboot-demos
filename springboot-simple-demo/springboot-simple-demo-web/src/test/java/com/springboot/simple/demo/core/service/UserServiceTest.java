@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AppMain.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -66,5 +67,11 @@ public class UserServiceTest {
          */
         User user = userService.repository().findById(400L, false);
         Assert.assertNull(user);
+    }
+
+    @Test
+    public void queryAllUser() {
+        List<User> users = userService.repository().queryAllUser();
+        Assert.assertTrue(!users.isEmpty());
     }
 }

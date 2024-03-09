@@ -736,4 +736,19 @@ public class UserRepositoryImpl implements UserRepository {
         entity.setUpdatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
     }
 
+    @Override
+    public List<com.springboot.simple.demo.core.domain.User> queryAllUser() {
+        return targetMapper.queryAllUser(Collections.emptyMap());
+    }
+
+    @Override
+    public com.springboot.simple.demo.core.domain.User queryByEmail(String email) {
+        return targetMapper.queryByEmail(email, Collections.emptyMap());
+    }
+
+    @Override
+    public com.springboot.simple.demo.core.domain.User queryByUserId(Long id) {
+        return targetMapper.queryByUserId(id, Collections.emptyMap());
+    }
+
 }
