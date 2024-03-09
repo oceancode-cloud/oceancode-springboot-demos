@@ -141,3 +141,6 @@ public class UserServiceTest {
     }
 }
 ```
+
+### 自定义sql
+[自定义sql和对应的方法](./db.md)
