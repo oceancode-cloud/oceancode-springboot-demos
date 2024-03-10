@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springboot.simple.demo.core.mapper.master.OrderMapper">
+    <insert id="insertOne" parameterType="com.springboot.simple.demo.core.domain.Order"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order`
+        <trim prefix = "(" suffix = ")" suffixOverrides = ",">
+        `created_at`,
+        `id`,
+        `name`,
+        `order_id`,
+        `project_id`,
+        `updated_at`,
+        `user_id`,
+        </trim>
+        <trim prefix = "VALUES(" suffix = ")" suffixOverrides=",">
+        #{createdAt},
+        #{id},
+        #{name},
+        #{orderId},
+        #{projectId},
+        #{updatedAt},
+        #{userId},
+        </trim>
+    </insert>
+
+    <insert id="insertListWithBusinessField" useGeneratedKeys="true" keyColumn="id" keyProperty="list.id">
+        INSERT INTO `order`(
+        `created_at`,
+        `id`,
+        `name`,
+        `order_id`,
+        `project_id`,
+        `updated_at`,
+        `user_id`
+        ) VALUES
+        <foreach collection="list" close="" index="index" item="item" open="" separator=",">
+        (
+        #{createdAt},
+        #{item.id},
+        #{item.name},
+        #{item.orderId},
+        #{item.projectId},
+        #{updatedAt},
+        #{item.userId}
+        )
+        </foreach>
+    </insert>
+
+    <delete id="deleteByIdWithBusiness">
+        DELETE FROM `order`
+        WHERE
+        `id` = #{id}
+        AND `user_id`=#{userId}
+        AND `project_id`=#{projectId}
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM `order`
+        WHERE
+        `id` = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        DELETE FROM `order`
+        WHERE
+        `id` IN
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+        #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteOne" parameterType="com.springboot.simple.demo.core.domain.Order">
+        DELETE FROM `order`
+        WHERE
+        <trim prefix = "" suffix = "" suffixOverrides = "AND">
+        <if test="createdAt != null ">`created_at` = #{createdAt} AND </if>
+        <if test="id != null ">`id` = #{id} AND </if>
+        <if test="name != null ">`name` = #{name} AND </if>
+        <if test="orderId != null ">`order_id` = #{orderId} AND </if>
+        <if test="projectId != null ">`project_id` = #{projectId} AND </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} AND </if>
+        <if test="userId != null ">`user_id` = #{userId} AND </if>
+        </trim>
+         LIMIT 1
+    </delete>
+
+    <update id="updateById" parameterType="com.springboot.simple.demo.core.domain.Order">
+        UPDATE `order` SET
+        <trim prefix = "" suffix = "" suffixOverrides = ",">
+        <if test="name != null ">`name` = #{name} , </if>
+        <if test="orderId != null ">`order_id` = #{orderId} , </if>
+        <if test="projectId != null ">`project_id` = #{projectId} , </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} , </if>
+        <if test="userId != null ">`user_id` = #{userId} , </if>
+        </trim>
+        WHERE
+        `id` = #{id}
+        LIMIT 1
+    </update>
+
+    <update id="updateByIdWithBusiness" parameterType="com.springboot.simple.demo.core.domain.Order">
+        UPDATE `order` SET
+        <trim prefix = "" suffix = "" suffixOverrides = ",">
+        <if test="name != null ">`name` = #{name} , </if>
+        <if test="orderId != null ">`order_id` = #{orderId} , </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} , </if>
+        </trim>
+        WHERE
+        `id` = #{id}
+        AND `user_id`=#{userId}
+        AND `project_id`=#{projectId}
+        LIMIT 1
+    </update>
+
+    <select id="selectById" resultType="com.springboot.simple.demo.core.domain.Order" parameterType="Long">
+        SELECT
+        `created_at` AS `createdAt`,
+        `id` AS `id`,
+        `name` AS `name`,
+        `order_id` AS `orderId`,
+        `project_id` AS `projectId`,
+        `updated_at` AS `updatedAt`,
+        `user_id` AS `userId`
+        FROM `order`
+        WHERE
+        `id` = #{id}
+    </select>
+
+    <select id="selectByUniqueColumn" resultType="com.springboot.simple.demo.core.domain.Order">
+        SELECT
+        `created_at` AS `createdAt`,
+        `id` AS `id`,
+        `name` AS `name`,
+        `order_id` AS `orderId`,
+        `project_id` AS `projectId`,
+        `updated_at` AS `updatedAt`,
+        `user_id` AS `userId`
+        FROM `order`
+        WHERE
+        <if test="entity!=null">
+        `user_id`=#{entity.userId} AND
+        `project_id`=#{entity.projectId} AND
+        </if>
+        `${column}` = #{columnValue}
+    </select>
+
+    <select id="existsByUniqueColumn" resultType="boolean">
+        SELECT EXISTS(
+          SELECT
+          id AS `id`
+          FROM `order`
+          WHERE
+        <if test="entity!=null">
+        `user_id`=#{entity.userId} AND
+        `project_id`=#{entity.projectId} AND
+        </if>
+        `${column}` = #{columnValue}
+        ) as `value`
+    </select>
+
+    <select id="selectByIdWithBusiness" resultType="com.springboot.simple.demo.core.domain.Order" parameterType="Long">
+        SELECT
+        `created_at` AS `createdAt`,
+        `id` AS `id`,
+        `name` AS `name`,
+        `order_id` AS `orderId`,
+        `project_id` AS `projectId`,
+        `updated_at` AS `updatedAt`,
+        `user_id` AS `userId`
+        FROM `order`
+        WHERE
+        `id`=#{id}
+        AND `user_id`=#{userId}
+        AND `project_id`=#{projectId}
+    </select>
+
+    <select id="selectByIds" resultType="com.springboot.simple.demo.core.domain.Order" parameterType="Long">
+        SELECT
+        `created_at` AS `createdAt`,
+        `id` AS `id`,
+        `name` AS `name`,
+        `order_id` AS `orderId`,
+        `project_id` AS `projectId`,
+        `updated_at` AS `updatedAt`,
+        `user_id` AS `userId`
+        FROM `order`
+        WHERE
+        `id` IN
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+        #{item}
+        </foreach>
+    </select>
+    <select id="selectByIdsWithBusinessField" resultType="com.springboot.simple.demo.core.domain.Order" parameterType="Long">
+        SELECT
+        `created_at` AS `createdAt`,
+        `id` AS `id`,
+        `name` AS `name`,
+        `order_id` AS `orderId`,
+        `project_id` AS `projectId`,
+        `updated_at` AS `updatedAt`,
+        `user_id` AS `userId`
+        FROM `order`
+        WHERE
+        `id` IN
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+        #{item}
+        </foreach>
+         AND `user_id`=#{session.userId}
+         AND `project_id`=#{session.projectId}
+    </select>
+
+
+    <select id="selectOne" resultType="com.springboot.simple.demo.core.domain.Order" parameterType="com.springboot.simple.demo.core.domain.Order">
+        SELECT
+        `created_at` AS `createdAt`,
+        `id` AS `id`,
+        `name` AS `name`,
+        `order_id` AS `orderId`,
+        `project_id` AS `projectId`,
+        `updated_at` AS `updatedAt`,
+        `user_id` AS `userId`
+        FROM `order`
+        WHERE
+        <trim prefix = "" suffix = "" suffixOverrides = "AND">
+        <if test="createdAt != null ">`created_at` = #{createdAt} AND </if>
+        <if test="id != null ">`id` = #{id} AND </if>
+        <if test="name != null ">`name` = #{name} AND </if>
+        <if test="orderId != null ">`order_id` = #{orderId} AND </if>
+        <if test="projectId != null ">`project_id` = #{projectId} AND </if>
+        <if test="updatedAt != null ">`updated_at` = #{updatedAt} AND </if>
+        <if test="userId != null ">`user_id` = #{userId} AND </if>
+        </trim>
+        LIMIT 2
+    </select>
+
+    <select id="existsById" resultType="Integer">
+        SELECT 1
+        FROM `order`
+        WHERE
+        `id` = #{id}
+    </select>
+
+    <select id="existsByIds" resultType="int">
+        SELECT COUNT(*)
+        FROM `order`
+        WHERE
+        `id` IN
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+        #{item}
+        </foreach>
+    </select>
+
+
+    <select id="queryUserOrderByOrderId" resultType="com.springboot.simple.demo.core.domain.Order">
+        select `id`,`name` from `order` where `order_id`=#{orderId}
+    </select>
+
+</mapper>
