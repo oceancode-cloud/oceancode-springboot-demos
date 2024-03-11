@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-@Component
+//@Component
 public class UtApplicationService implements ApplicationLifeCycleService {
     @Resource(name = "masterDataSource")
     private DataSource dataSource;

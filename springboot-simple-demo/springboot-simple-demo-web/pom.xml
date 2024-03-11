@@ -24,6 +24,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.springboot.simple.demo.core</groupId>
+            <artifactId>springboot-simple-demo-core-function</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.demo.user.function</groupId>
+            <artifactId>user-function</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.oceancode-cloud</groupId>
             <artifactId>oceancode-common-web-spring-boot</artifactId>
         </dependency>
