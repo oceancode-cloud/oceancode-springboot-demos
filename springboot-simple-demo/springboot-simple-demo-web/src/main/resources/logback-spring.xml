@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!-- Configuration for production environment. -->
+<configuration>
+    <!-- 日志输出格式 -->
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{serviceName},%X{instanceName},%X{requestId},%X{traceId}] %logger{20} - [%method,%line] : %msg%n"/>
+
+    <!-- Default configuration. -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!-- Configuration for console. -->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!-- Configuration for ERROR logs. All error logs will write twice. -->
+    <appender name="ERROR_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/oceancode-server-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_PATH}/oceancode-server-error.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!-- End of configuration for ERROR logs. -->
+
+    <!-- Configuration for Web services. -->
+    <appender name="WEB_LOG_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/oceancode-server-web.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_PATH}/oceancode-server-web.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <append>true</append>
+    </appender>
+    <logger name="WEB_LOG" level="INFO" additivity="false">
+        <appender-ref ref="WEB_LOG_APPENDER"/>
+    </logger>
+    <!-- End of configuration for Web services. -->
+
+    <!-- Configuration for system logs. -->
+    <appender name="DEFAULT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/oceancode-server-application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_PATH}/oceancode-server-application.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <append>true</append>
+    </appender>
+    <!-- End of configuration for system logs. -->
+
+    <!-- Configuration for console output. -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="DEFAULT_APPENDER"/>
+        <appender-ref ref="ERROR_APPENDER"/>
+    </root>
+
+</configuration>
