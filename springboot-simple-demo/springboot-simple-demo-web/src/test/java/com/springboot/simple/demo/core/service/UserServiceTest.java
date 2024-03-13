@@ -4,6 +4,7 @@ import com.oceancode.cloud.common.exception.BusinessRuntimeException;
 import com.oceancode.cloud.common.util.PasswordUtil;
 import com.springboot.simple.demo.core.domain.User;
 import com.springboot.simple.demo.core.enums.UserStatus;
+import com.springboot.simple.demo.core.util.domain.Users;
 import com.springboot.simple.demo.web.AppMain;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,12 +25,12 @@ public class UserServiceTest {
     private UserService userService;
 
     private static User createUser() {
-        User user = new User();
-        user.setUsername("1354174190");
-        user.setPassword(PasswordUtil.encode("qinjiawang"));
-        user.setEmail("testqjw@sina.com");
-        user.setStatus(UserStatus.NORMAL);
-        return user;
+        return Users.newUser()
+                .withUsername("1354174190")
+                .withPassword(PasswordUtil.encode("qinjiawang"))
+                .withEmail("testqjw@sina.com")
+                .withStatus(UserStatus.NORMAL)
+                .get();
     }
 
     @Test

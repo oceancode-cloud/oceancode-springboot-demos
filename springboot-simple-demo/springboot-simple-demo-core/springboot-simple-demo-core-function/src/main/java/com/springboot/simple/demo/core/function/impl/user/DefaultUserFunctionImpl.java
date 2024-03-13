@@ -4,10 +4,8 @@
 
 package com.springboot.simple.demo.core.function.impl.user;
 
-import com.oceancode.cloud.common.errorcode.CommonErrorCode;
-import com.oceancode.cloud.common.exception.BusinessRuntimeException;
-import com.oceancode.cloud.common.exception.BusinessRuntimeException;
-import com.oceancode.cloud.common.util.ValueUtil;
+import com.springboot.simple.demo.core.entity.api.params.UserLoginParam;
+import com.springboot.simple.demo.core.entity.api.result.UserLoginResponse;
 import com.springboot.simple.demo.core.function.api.user.UserFunction;
 
 import org.springframework.context.annotation.Primary;
@@ -37,12 +35,11 @@ public final class DefaultUserFunctionImpl implements UserFunction {
      *
      * @param password 登录密码
      * @param username 登录账号
-
      */
     @Override
-    public void userLogin(com.springboot.simple.demo.core.entity.api.params.UserLoginParam param) {
+    public UserLoginResponse userLogin(UserLoginParam param) {
         param.validate();
-        _customerRemoteFunction.userLogin(param);
+        return _customerRemoteFunction.userLogin(param);
     }
 
 }

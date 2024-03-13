@@ -5,6 +5,8 @@
 package com.springboot.simple.demo.core.function.api.user;
 
 import com.oceancode.cloud.function.RemoteFunction;
+import com.springboot.simple.demo.core.entity.api.params.UserLoginParam;
+import com.springboot.simple.demo.core.entity.api.result.UserLoginResponse;
 
 /**
  * <B>UserFunction</B>
@@ -23,8 +25,7 @@ public interface UserFunction extends RemoteFunction {
      *
      * @param password 登录密码
      * @param username 登录账号
-
      */
-    void userLogin(com.springboot.simple.demo.core.entity.api.params.UserLoginParam param);
+    UserLoginResponse userLogin(UserLoginParam param);
 
 }

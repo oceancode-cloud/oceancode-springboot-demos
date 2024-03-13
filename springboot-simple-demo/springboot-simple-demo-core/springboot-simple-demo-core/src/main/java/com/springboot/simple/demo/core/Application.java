@@ -12,7 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication(scanBasePackageClasses = {
         com.springboot.simple.demo.core.PackageInfo.class,
-        com.oceancode.cloud.common.PackageInfo.class
+        com.oceancode.cloud.common.PackageInfo.class,
 }, nameGenerator = FullModelBeanNameGenerator.class)
 public abstract class Application {
 
