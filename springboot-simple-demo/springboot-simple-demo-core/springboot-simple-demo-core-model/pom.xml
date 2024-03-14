@@ -24,9 +24,9 @@
     <dependencies>
         <dependency>
             <groupId>com.oceancode-cloud</groupId>
-            <artifactId>oceancode-core</artifactId>
+            <artifactId>oceancode-common-spring-boot</artifactId>
             <scope>provided</scope>
-
         </dependency>
+
     </dependencies>
 </project>

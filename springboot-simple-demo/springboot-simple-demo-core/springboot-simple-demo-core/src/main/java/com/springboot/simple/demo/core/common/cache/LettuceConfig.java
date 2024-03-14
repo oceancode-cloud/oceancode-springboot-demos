@@ -1,12 +1,11 @@
 /**
- * Copyright (C) NA Technologies Co., Ltd. 2024-2024 .All Rights Reserved.
+ * Copyright (C) Oceancode Cloud. 2024-2024 .All Rights Reserved.
  */
 
-package com.springboot.simple.demo.web.api;
+package com.springboot.simple.demo.core.common.cache;
 
 import com.oceancode.cloud.api.cache.RedisCacheService;
 import com.oceancode.cloud.common.config.CommonConfig;
-import com.oceancode.cloud.common.util.JsonUtil;
 import com.oceancode.cloud.common.util.RedisUtil;
 import com.oceancode.cloud.common.util.ValueUtil;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -24,8 +23,6 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -38,21 +35,20 @@ public class LettuceConfig {
 
     @Resource
     private CommonConfig commonConfig;
-
-    @Bean("redisRedismasterPool")
-    @ConfigurationProperties(prefix = "spring.redis.master.lettuce.pool")
+    @Bean("redisRedisMasterPool")
+    @ConfigurationProperties(prefix = "spring.redis.redisMaster.lettuce.pool")
     public GenericObjectPoolConfig redisPool0() {
         return new GenericObjectPoolConfig();
     }
 
-    @Bean("redisRedismasterConfig")
+    @Bean("redisRedisMasterConfig")
     @Primary
-    @ConditionalOnProperty(name = "spring.redis.master.mode", havingValue = "cluster", matchIfMissing = true)
+    @ConditionalOnProperty(name = "spring.redis.redisMaster.mode", havingValue = "cluster", matchIfMissing = true)
     public RedisClusterConfiguration redisClusterConfig0() {
         Map<String, Object> source = new HashMap<>(8);
-        source.put("spring.redis.cluster.nodes", commonConfig.getValue("spring.redis.master.cluster.nodes"));
+        source.put("spring.redis.cluster.nodes", commonConfig.getValue("spring.redis.redisMaster.cluster.nodes"));
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(new MapPropertySource("RedisClusterConfiguration", source));
-        String password = commonConfig.getValue("spring.redis.master.password");
+        String password = commonConfig.getValue("spring.redis.redisMaster.password");
         if (ValueUtil.isNotEmpty(password)) {
             redisClusterConfiguration.setPassword(password);
         }
@@ -60,23 +56,24 @@ public class LettuceConfig {
         return redisClusterConfiguration;
     }
 
-    @Bean("redisRedismasterConfig")
-    @ConfigurationProperties(prefix = "spring.redis.master")
-    @ConditionalOnProperty(name = "spring.redis.master.mode", havingValue = "standalone", matchIfMissing = false)
+    @Bean("redisRedisMasterConfig")
+    @ConfigurationProperties(prefix = "spring.redis.redisMaster")
+    @ConditionalOnProperty(name = "spring.redis.redisMaster.mode", havingValue = "standalone", matchIfMissing = false)
     public RedisStandaloneConfiguration redisConfig0() {
         return new RedisStandaloneConfiguration();
     }
 
-    @Bean("lettuceRedismasterConnectionFactory")
-    @ConditionalOnProperty(name = "spring.redis.master.mode", havingValue = "standalone", matchIfMissing = false)
-    public LettuceConnectionFactory redisRedismasterFactory(@Qualifier("redisRedismasterPool") GenericObjectPoolConfig config,
-                                                            @Qualifier("redisRedismasterConfig") RedisStandaloneConfiguration redisConfig) {
+    @Bean("lettuceRedisMasterConnectionFactory")
+    @ConditionalOnProperty(name = "spring.redis.redisMaster.mode", havingValue = "standalone", matchIfMissing = false)
+    public LettuceConnectionFactory redisRedisMasterFactory(@Qualifier("redisRedisMasterPool") GenericObjectPoolConfig config,
+                                                            @Qualifier("redisRedisMasterConfig") RedisStandaloneConfiguration redisConfig) {
         LettuceClientConfiguration clientConfiguration = LettucePoolingClientConfiguration.builder().poolConfig(config).build();
         return new LettuceConnectionFactory(redisConfig, clientConfiguration);
     }
 
-    @Bean("masterRedisTemplate")
-    public RedisTemplate<String, Object> redisRedismasterTemplate(@Qualifier("lettuceRedismasterConnectionFactory") LettuceConnectionFactory lettuceConnectionFactory) {
+    @Bean("redisMasterRedisTemplate")
+    public RedisTemplate<String, Object> redisRedisMasterTemplate(@Qualifier("lettuceRedisMasterConnectionFactory") LettuceConnectionFactory lettuceConnectionFactory) {
         return RedisUtil.builderRedisTemplate(lettuceConnectionFactory);
     }
+
 }

@@ -1,6 +1,5 @@
 package com.springboot.simple.demo.web;
 
-import com.oceancode.cloud.api.session.SessionService;
 import com.springboot.simple.demo.core.Application;
 import com.oceancode.cloud.common.FullModelBeanNameGenerator;
 import org.springframework.context.annotation.ComponentScan;
